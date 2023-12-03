@@ -1,107 +1,129 @@
-Running YoloV5 with TensorRT Engine on Jetson.
-==========
+# Suivi de Drones en Temps Réel
 
-This repository contains step by step guide to build and convert YoloV5 model into a TensorRT engine on Jetson. This has been tested on Jetson Nano or Jetson Xavier 
+Ce projet implémente un système de suivi de drones en temps réel, exploitant la puissance de la bibliothèque YOLO et de NVIDIA TensorRT, et est optimisé pour fonctionner sur une NVIDIA Jetson Nano.
 
-Please install Jetpack OS version 4.6 as mentioned by Nvidia and follow below steps. Please follow each steps exactly mentioned in the video links below :
+## Sommaire
 
-Build YoloV5 TensorRT Engine on Jetson Nano: https://www.youtube.com/watch?v=ErWC3nBuV6k
+- [Présentation des Fonctionnalités](#présentation-des-fonctionnalités)
+- [Guide d'Installation](#guide-dinstallation)
+- [Configuration et Dépendances](#configuration-et-dépendances)
+- [Utilisation](#utilisation)
+- [Personnalisation et Entraînement de Modèle](#personnalisation-et-entraînement-de-modèle)
+- [Conversion de Modèles](#conversion-de-modèles)
+- [Tests et Validation](#tests-et-validation)
+- [Procédures de Déploiement](#procédures-de-déploiement)
+- [Contribuer au Projet](#contribuer-au-projet)
+- [Licence](#licence)
 
-Object Detection YoloV5 TensorRT Engine on Jetson Nano: https://www.youtube.com/watch?v=-Vu65N1NRWw
+## Présentation des Fonctionnalités
 
-Jetson Xavier:
+- **Détection et Suivi en Temps Réel** : Utilisation de YOLO pour la détection et le suivi dynamique des drones.
+- **Suivi Avancé** : Capacité à suivre les drones en dépit de mouvements rapides ou de changements soudains de trajectoire.
+- **Intégration des Capteurs NVIDIA** : Exploitation des capteurs NVIDIA pour une précision accrue.
+- **Affichage des Informations de Suivi** : Visualisation en temps réel des données de suivi pour une surveillance efficace.
+- **Compatibilité Caméra** : Prise en charge de diverses caméras fonctionnant avec Jetson Nano.
+- **Choix de Modèle YOLO** : Flexibilité dans le choix du modèle YOLO adapté à vos besoins.
 
-<img src="videos/out.jpg" width="800"/>
+## Guide d'Installation
 
-Install Libraries
-=============
-Please install below libraries::
+### Prérequis Système et Logiciel
 
-    $ sudo apt-get update
-	$ sudo apt-get install -y liblapack-dev libblas-dev gfortran libfreetype6-dev libopenblas-base libopenmpi-dev libjpeg-dev zlib1g-dev
-	$ sudo apt-get install -y python3-pip
-	
+```
+sudo apt-get update
+sudo apt-get install -y liblapack-dev libblas-dev gfortran libfreetype6-dev libopenblas-base libopenmpi-dev libjpeg-dev zlib1g-dev
+sudo apt-get install -y python3-pip
+pip install -r requirements.txt
+```
 
-Install below python packages
-=============
-Numpy comes pre installed with Jetpack, so make sure you uninstall it first and then confirm if it's uninstalled or not. Then install below packages:
+## Configuration et Dépendances
 
-    $ numpy==1.19.0
-	$ pandas==0.22.0
-	$ Pillow==8.4.0
-	$ PyYAML==3.12
-	$ scipy==1.5.4
-	$ psutil
-	$ tqdm==4.64.1
-	$ imutils
+- **Jetson Nano** : Developer Kit Version - Jetpack 4.6 [L4T 32.6.1]
+- **Logiciels et Bibliothèques** : Cuda 10.2.300, OpenCV 4.1.1, TensorRT 8.0.1.6, cuDNN 8.2.1.32, PyTorch v1.10, torchvision v0.11.1, Python 3.6+, YOLOv5-7
+- **Installation Additionnelle** :
+   - **PyCuda** :
+     ```
+     export PATH=/usr/local/cuda-10.2/bin${PATH:+:${PATH}}
+     export LD_LIBRARY_PATH=/usr/local/cuda-10.2/lib64:$LD_LIBRARY_PATH
+     pip install pycuda --user
+     ```
+     
+   - **Seaborn** :
+     ```
+     sudo apt install python3-seaborn
+     ```
 
-Install PyCuda
-=============
-We need to first export few paths
+   - **Installation de PyTorch et TensorRT** : Suivez les instructions sur [ce lien](https://forums.developer.nvidia.com/t/pytorch-for-jetson/72048) pour installer PyTorch, torchvision sur Jetson Nano (choisir la version PyTorch v1.10 - torchvision v0.11.1).
 
-	$ export PATH=/usr/local/cuda-10.2/bin${PATH:+:${PATH}}
-	$ export LD_LIBRARY_PATH=/usr/local/cuda-10.2/lib64:$LD_LIBRARY_PATH
-	$ python3 -m pip install pycuda --user
-	
+## Utilisation de YoloV5 avec le Moteur TensorRT sur Jetson
 
-Install Seaborn
-=============
+### Génération du fichier wts à partir du fichier pt
 
-    $ sudo apt install python3-seaborn
-	
-Install torch & torchvision
-=============
+Yolov5s.pt et Yolov5n.pt sont déjà fournis dans le repo. Mais si vous le souhaitez, vous pouvez télécharger une autre version du modèle yolov5. Exécutez ensuite la commande ci-dessous pour convertir le fichier .pt en fichier .wts :
 
-	$ wget https://nvidia.box.com/shared/static/fjtbno0vpo676a25cgvuqc1wty0fkkg6.whl -O torch-1.10.0-cp36-cp36m-linux_aarch64.whl
-	$ pip3 install torch-1.10.0-cp36-cp36m-linux_aarch64.whl
-	$ git clone --branch v0.11.1 https://github.com/pytorch/vision torchvision
-	$ cd torchvision
-	$ sudo python3 setup.py install 
-	
-### Not required but good library
-sudo python3 -m pip install -U jetson-stats==3.1.4
+```
+cd JetsonYoloV5
+python3 gen_wts.py -w yolov5s.pt -o yolov5s.wts
+```
 
-This marks the installation of all the required libraries.
+### Compilation
 
-------------------------------------------------------------------------------------------
+Créez un répertoire de compilation à l'intérieur de yolov5. Copiez et collez le fichier wts généré dans le répertoire de compilation et exécutez les commandes suivantes. Si vous utilisez un modèle personnalisé , assurez-vous de mettre à jour kNumClas dans yolov5/src/config.h :
 
-Generate wts file from pt file
-=============
-Yolov5s.pt and Yolov5n.pt are already provided in the repo. But if you want you can download any other version of the yolov5 model. Then run below command to convert .pt file into .wts file 
+```
+ cd yolov5/
+ mkdir build
+ cd build
+ cp ../../yolov5s.wts .
+ cmake ..
+ make 
+```
 
-	$ cd JetsonYoloV5
-	$ python3 gen_wts.py -w yolov5s.pt -o yolov5s.wts
-	
-Make
-=============
-Create a build directory inside yolov5. Copy and paste generated wts file into build directory and run below commands. If using custom model, make sure to update kNumClas in yolov5/src/config.h
+### Construction du fichier Engine
 
-	$ cd yolov5/
-	$ mkdir build
-	$ cd build
-	$ cp ../../yolov5s.wts .
-	$ cmake ..
-	$ make 
-	
-Build Engine file 
-=============
+```
+./yolov5_det -s yolov5s.wts yolov5s.engine s
+```
 
-    $ ./yolov5_det -s yolov5s.wts yolov5s.engine s
-	
+### Test du fichier Engine
 
-Testing Engine file 
-=============
+```
+./yolov5_det -d yolov5s.engine ../images
+```
 
-	$ ./yolov5_det -d yolov5s.engine ../images
-	
-This will do inferencing over images and output will be saved in build directory.
+Cela réalisera l'inférence sur les images et les résultats seront sauvegardés dans le répertoire de compilation.
 
------------------------------------------------------------------------------------------
+## Utilisation
 
-Python Object Detection
-=============
-Use `app.py` to do inferencing on any video file or camera.
+Pour démarrer le suivi des drones :
 
-	$ python3 app.py
+```
+python3 track_drones.py
+```
 
-If you have custom model, make sure to update categories as per your classes in `yolovDet.py` .
+## Personnalisation et Entraînement de Modèle
+
+Instructions pour entraîner votre propre modèle YOLO personnalisé.
+
+## Conversion de Modèles
+
+Guide pour convertir un modèle `.pt` en format `.engine` adapté à TensorRT.
+
+## Tests et Validation
+
+Exécutez des tests unitaires pour garantir la fiabilité :
+
+```
+python3 -m unittest discover -s tests
+```
+
+## Procédures de Déploiement
+
+Instructions détaillées disponibles dans le dossier `/deploy` pour une mise en production.
+
+## Contribuer au Projet
+
+Instructions pour contribuer au développement et à l'amélioration du projet.
+
+## Licence
+
+Ce projet est distribué sous la licence MIT. Veuillez consulter le fichier [LICENCE](LICENSE) pour les détails complets sur l'utilisation et la distribution.
