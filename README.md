@@ -1,5 +1,6 @@
+D'accord, je vais ajouter ces références dans le README. Voici la version mise à jour :
 
----
+
 
 # Suivi de Drones en Temps Réel
 
@@ -18,6 +19,7 @@
 - [Comment Contribuer](#comment-contribuer)
 - [Licence](#licence)
 - [Support](#support)
+- [Ressources Additionnelles](#ressources-additionnelles)
 
 ## Introduction
 Ce projet vise à fournir une solution robuste pour le suivi de drones en temps réel. Il est idéal pour la surveillance, la gestion du trafic aérien, ou toute application nécessitant une surveillance aérienne précise et fiable. Notre système utilise les dernières innovations en matière d'intelligence artificielle et de traitement d'image pour offrir une expérience utilisateur sans précédent.
@@ -60,9 +62,9 @@ pip install -r requirements.txt
      ```
 
 ### Installation de PyTorch et TensorRT
-Suivez les instructions sur [ce lien](https://forums.developer.nvidia.com/t/pytorch-for-jetson/72048) pour installer PyTorch et torchvision sur Jetson Nano (choisir la
+Suivez les instructions sur [ce lien](https://forums.developer.nvidia.com/t/pytorch-for-jetson/72048) pour installer PyTorch et torchvision sur
 
- version PyTorch v1.10 - torchvision v0.11.1).
+ Jetson Nano (choisir la version PyTorch v1.10 - torchvision v0.11.1).
 
 ## Guide d'Utilisation
 Pour démarrer le suivi des drones, exécutez :
@@ -97,12 +99,15 @@ Cette commande lance tous les tests unitaires disponibles.
 ## Procédures de Déploiement
 Les instructions détaillées de déploiement sont disponibles dans le dossier `/deploy`. Elles comprennent des étapes spécifiques pour la mise en production.
 
-## Comment Contribuer
-Votre contribution est la bienvenue ! Pour contribuer, veuillez suivre les instructions dans [CONTRIBUTING.md](CONTRIBUTING.md). Assurez-vous de respecter nos directives de codage et de soumettre des pull requests.
 
 ## Licence
 Ce projet est distribué sous la licence MIT. Consultez le fichier [LICENCE](LICENSE) pour les détails.
 
 ## Support
 Pour toute question ou support, n'hésitez pas à ouvrir un ticket dans la section 'Issues' du dépôt GitHub.
+
+## Ressources Additionnelles
+Pour de plus amples informations sur ce projet, consultez le dépôt GitHub suivant : [mailrocketsystems/JetsonYolov5](https://github.com/mailrocketsystems/JetsonYolov5). Des démonstrations et explications supplémentaires peuvent être trouvées dans ces vidéos YouTube :
+- [Démo du Suivi de Drone](https://www.youtube.com/watch?v=ErWC3nBuV6k&ab_channel=RocketSystems)
+- [Explication Technique](https://www.youtube.com/watch?v=-Vu65N1NRWw&ab_channel=RocketSystems)
 
