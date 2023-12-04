@@ -1,129 +1,108 @@
+
+---
+
 # Suivi de Drones en Temps Réel
 
-Ce projet implémente un système de suivi de drones en temps réel, exploitant la puissance de la bibliothèque YOLO et de NVIDIA TensorRT, et est optimisé pour fonctionner sur une NVIDIA Jetson Nano.
+**Un système révolutionnaire pour le suivi dynamique des drones, combinant la puissance de la bibliothèque YOLO et NVIDIA TensorRT, spécialement conçu pour NVIDIA Jetson Nano.** Ce projet offre une solution de pointe pour la détection et le suivi en temps réel des drones, tirant parti des dernières avancées technologiques pour une précision et une performance accrues.
 
-## Sommaire
-
-- [Présentation des Fonctionnalités](#présentation-des-fonctionnalités)
+## Table des Matières
+- [Introduction](#introduction)
+- [Fonctionnalités Clés](#fonctionnalités-clés)
 - [Guide d'Installation](#guide-dinstallation)
 - [Configuration et Dépendances](#configuration-et-dépendances)
-- [Utilisation](#utilisation)
+- [Guide d'Utilisation](#guide-dutilisation)
 - [Personnalisation et Entraînement de Modèle](#personnalisation-et-entraînement-de-modèle)
 - [Conversion de Modèles](#conversion-de-modèles)
 - [Tests et Validation](#tests-et-validation)
 - [Procédures de Déploiement](#procédures-de-déploiement)
-- [Contribuer au Projet](#contribuer-au-projet)
+- [Comment Contribuer](#comment-contribuer)
 - [Licence](#licence)
+- [Support](#support)
 
-## Présentation des Fonctionnalités
+## Introduction
+Ce projet vise à fournir une solution robuste pour le suivi de drones en temps réel. Il est idéal pour la surveillance, la gestion du trafic aérien, ou toute application nécessitant une surveillance aérienne précise et fiable. Notre système utilise les dernières innovations en matière d'intelligence artificielle et de traitement d'image pour offrir une expérience utilisateur sans précédent.
 
-- **Détection et Suivi en Temps Réel** : Utilisation de YOLO pour la détection et le suivi dynamique des drones.
-- **Suivi Avancé** : Capacité à suivre les drones en dépit de mouvements rapides ou de changements soudains de trajectoire.
-- **Intégration des Capteurs NVIDIA** : Exploitation des capteurs NVIDIA pour une précision accrue.
-- **Affichage des Informations de Suivi** : Visualisation en temps réel des données de suivi pour une surveillance efficace.
-- **Compatibilité Caméra** : Prise en charge de diverses caméras fonctionnant avec Jetson Nano.
-- **Choix de Modèle YOLO** : Flexibilité dans le choix du modèle YOLO adapté à vos besoins.
+## Fonctionnalités Clés
+- **Détection et Suivi en Temps Réel**: Utilise YOLO pour une détection et un suivi précis des drones.
+- **Suivi Avancé**: Capable de suivre des drones malgré des mouvements rapides ou des changements de trajectoire.
+- **Intégration de Capteurs NVIDIA**: Exploite les capteurs NVIDIA pour une précision améliorée.
+- **Visualisation des Données de Suivi**: Affichage en temps réel des informations pour une surveillance efficace.
+- **Compatibilité avec Diverses Caméras**: Supporte de nombreuses caméras compatibles avec Jetson Nano.
+- **Flexibilité du Modèle YOLO**: Choisissez le modèle YOLO le plus adapté à vos besoins.
 
 ## Guide d'Installation
-
 ### Prérequis Système et Logiciel
-
-```
+Installez les dépendances nécessaires en exécutant les commandes suivantes :
+```shell
 sudo apt-get update
 sudo apt-get install -y liblapack-dev libblas-dev gfortran libfreetype6-dev libopenblas-base libopenmpi-dev libjpeg-dev zlib1g-dev
 sudo apt-get install -y python3-pip
 pip install -r requirements.txt
 ```
 
-## Configuration et Dépendances
+### Problèmes Courants et Solutions
+- **Dépendance Manquante**: Si une dépendance est manquante, essayez de l'installer manuellement.
+- **Échec de l'Installation**: Assurez-vous que votre Jetson Nano est à jour avec la dernière version de JetPack.
 
-- **Jetson Nano** : Developer Kit Version - Jetpack 4.6 [L4T 32.6.1]
-- **Logiciels et Bibliothèques** : Cuda 10.2.300, OpenCV 4.1.1, TensorRT 8.0.1.6, cuDNN 8.2.1.32, PyTorch v1.10, torchvision v0.11.1, Python 3.6+, YOLOv5-7
+## Configuration et Dépendances
+- **Jetson Nano**: Developer Kit Version - Jetpack 4.6 [L4T 32.6.1]
+- **Logiciels et Bibliothèques**: Cuda 10.2.300, OpenCV 4.1.1, TensorRT 8.0.1.6, cuDNN 8.2.1.32, PyTorch v1.10, torchvision v0.11.1, Python 3.6+, YOLOv5-7
 - **Installation Additionnelle** :
    - **PyCuda** :
-     ```
+     ```shell
      export PATH=/usr/local/cuda-10.2/bin${PATH:+:${PATH}}
      export LD_LIBRARY_PATH=/usr/local/cuda-10.2/lib64:$LD_LIBRARY_PATH
      pip install pycuda --user
      ```
-     
    - **Seaborn** :
-     ```
+     ```shell
      sudo apt install python3-seaborn
      ```
 
-   - **Installation de PyTorch et TensorRT** : Suivez les instructions sur [ce lien](https://forums.developer.nvidia.com/t/pytorch-for-jetson/72048) pour installer PyTorch, torchvision sur Jetson Nano (choisir la version PyTorch v1.10 - torchvision v0.11.1).
+### Installation de PyTorch et TensorRT
+Suivez les instructions sur [ce lien](https://forums.developer.nvidia.com/t/pytorch-for-jetson/72048) pour installer PyTorch et torchvision sur Jetson Nano (choisir la
 
-## Utilisation de YoloV5 avec le Moteur TensorRT sur Jetson
+ version PyTorch v1.10 - torchvision v0.11.1).
 
-### Génération du fichier wts à partir du fichier pt
-
-Yolov5s.pt et Yolov5n.pt sont déjà fournis dans le repo. Mais si vous le souhaitez, vous pouvez télécharger une autre version du modèle yolov5. Exécutez ensuite la commande ci-dessous pour convertir le fichier .pt en fichier .wts :
-
+## Guide d'Utilisation
+Pour démarrer le suivi des drones, exécutez :
+```shell
+python3 track_drones.py
 ```
+### FAQ sur l'Utilisation
+- **Comment démarrer le suivi?** Lancez `track_drones.py` pour commencer le suivi.
+- **Puis-je utiliser une caméra différente?** Oui, le système est compatible avec plusieurs modèles de caméras.
+
+## Personnalisation et Entraînement de Modèle
+Pour entraîner votre propre modèle YOLO, suivez ces étapes :
+1. Collectez et préparez vos données.
+2. Suivez les instructions de configuration du modèle YOLO.
+3. Lancez le processus d'entraînement en utilisant `train.py`.
+
+## Conversion de Modèles
+Pour convertir un modèle `.pt` en format `.engine`, exécutez les commandes suivantes :
+```shell
 cd JetsonYoloV5
 python3 gen_wts.py -w yolov5s.pt -o yolov5s.wts
 ```
-
-### Compilation
-
-Créez un répertoire de compilation à l'intérieur de yolov5. Copiez et collez le fichier wts généré dans le répertoire de compilation et exécutez les commandes suivantes. Si vous utilisez un modèle personnalisé , assurez-vous de mettre à jour kNumClas dans yolov5/src/config.h :
-
-```
- cd yolov5/
- mkdir build
- cd build
- cp ../../yolov5s.wts .
- cmake ..
- make 
-```
-
-### Construction du fichier Engine
-
-```
-./yolov5_det -s yolov5s.wts yolov5s.engine s
-```
-
-### Test du fichier Engine
-
-```
-./yolov5_det -d yolov5s.engine ../images
-```
-
-Cela réalisera l'inférence sur les images et les résultats seront sauvegardés dans le répertoire de compilation.
-
-## Utilisation
-
-Pour démarrer le suivi des drones :
-
-```
-python3 track_drones.py
-```
-
-## Personnalisation et Entraînement de Modèle
-
-Instructions pour entraîner votre propre modèle YOLO personnalisé.
-
-## Conversion de Modèles
-
-Guide pour convertir un modèle `.pt` en format `.engine` adapté à TensorRT.
+Plus de détails dans la section [Conversion de Modèles](#conversion-de-modèles).
 
 ## Tests et Validation
-
-Exécutez des tests unitaires pour garantir la fiabilité :
-
-```
+Pour garantir la fiabilité, exécutez :
+```shell
 python3 -m unittest discover -s tests
 ```
+Cette commande lance tous les tests unitaires disponibles.
 
 ## Procédures de Déploiement
+Les instructions détaillées de déploiement sont disponibles dans le dossier `/deploy`. Elles comprennent des étapes spécifiques pour la mise en production.
 
-Instructions détaillées disponibles dans le dossier `/deploy` pour une mise en production.
-
-## Contribuer au Projet
-
-Instructions pour contribuer au développement et à l'amélioration du projet.
+## Comment Contribuer
+Votre contribution est la bienvenue ! Pour contribuer, veuillez suivre les instructions dans [CONTRIBUTING.md](CONTRIBUTING.md). Assurez-vous de respecter nos directives de codage et de soumettre des pull requests.
 
 ## Licence
+Ce projet est distribué sous la licence MIT. Consultez le fichier [LICENCE](LICENSE) pour les détails.
 
-Ce projet est distribué sous la licence MIT. Veuillez consulter le fichier [LICENCE](LICENSE) pour les détails complets sur l'utilisation et la distribution.
+## Support
+Pour toute question ou support, n'hésitez pas à ouvrir un ticket dans la section 'Issues' du dépôt GitHub.
+
