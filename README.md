@@ -1,10 +1,8 @@
-D'accord, je vais ajouter ces références dans le README. Voici la version mise à jour :
-
-
-
 # Suivi de Drones en Temps Réel
 
-**Un système révolutionnaire pour le suivi dynamique des drones, combinant la puissance de la bibliothèque YOLO et NVIDIA TensorRT, spécialement conçu pour NVIDIA Jetson Nano.** Ce projet offre une solution de pointe pour la détection et le suivi en temps réel des drones, tirant parti des dernières avancées technologiques pour une précision et une performance accrues.
+**Un système révolutionnaire pour le suivi dynamique des drones, combinant la puissance de la bibliothèque YOLO et NVIDIA TensorRT, spécialement conçu pour NVIDIA Jetson Nano.** 
+
+Ce projet offre une solution de pointe pour la détection et le suivi en temps réel des drones, tirant parti des dernières avancées technologiques pour une précision et une performance accrues.
 
 ## Table des Matières
 - [Introduction](#introduction)
@@ -15,8 +13,6 @@ D'accord, je vais ajouter ces références dans le README. Voici la version mise
 - [Personnalisation et Entraînement de Modèle](#personnalisation-et-entraînement-de-modèle)
 - [Conversion de Modèles](#conversion-de-modèles)
 - [Tests et Validation](#tests-et-validation)
-- [Procédures de Déploiement](#procédures-de-déploiement)
-- [Comment Contribuer](#comment-contribuer)
 - [Licence](#licence)
 - [Support](#support)
 - [Ressources Additionnelles](#ressources-additionnelles)
@@ -90,15 +86,10 @@ python3 gen_wts.py -w yolov5s.pt -o yolov5s.wts
 Plus de détails dans la section [Conversion de Modèles](#conversion-de-modèles).
 
 ## Tests et Validation
-Pour garantir la fiabilité, exécutez :
+Pour tester, exécutez :
 ```shell
-python3 -m unittest discover -s tests
+python3 app.py
 ```
-Cette commande lance tous les tests unitaires disponibles.
-
-## Procédures de Déploiement
-Les instructions détaillées de déploiement sont disponibles dans le dossier `/deploy`. Elles comprennent des étapes spécifiques pour la mise en production.
-
 
 ## Licence
 Ce projet est distribué sous la licence MIT. Consultez le fichier [LICENCE](LICENSE) pour les détails.
