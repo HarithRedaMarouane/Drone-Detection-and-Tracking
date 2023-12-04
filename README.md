@@ -9,7 +9,6 @@ Ce projet offre une solution de pointe pour la détection et le suivi en temps r
 - [Fonctionnalités Clés](#fonctionnalités-clés)
 - [Guide d'Installation](#guide-dinstallation)
 - [Configuration et Dépendances](#configuration-et-dépendances)
-- [Guide d'Utilisation](#guide-dutilisation)
 - [Personnalisation et Entraînement de Modèle](#personnalisation-et-entraînement-de-modèle)
 - [Conversion de Modèles](#conversion-de-modèles)
 - [Tests et Validation](#tests-et-validation)
@@ -62,11 +61,6 @@ Suivez les instructions sur [ce lien](https://forums.developer.nvidia.com/t/pyto
 
  Jetson Nano (choisir la version PyTorch v1.10 - torchvision v0.11.1).
 
-## Guide d'Utilisation
-Pour démarrer le suivi des drones, exécutez :
-```shell
-python3 track_drones.py
-```
 ### FAQ sur l'Utilisation
 - **Comment démarrer le suivi?** Lancez `track_drones.py` pour commencer le suivi.
 - **Puis-je utiliser une caméra différente?** Oui, le système est compatible avec plusieurs modèles de caméras.
