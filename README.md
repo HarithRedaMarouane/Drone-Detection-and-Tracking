@@ -93,6 +93,7 @@ Pour toute question ou support, n'hésitez pas à ouvrir un ticket dans la secti
 
 ## Ressources Additionnelles
 Pour de plus amples informations sur ce projet, consultez le dépôt GitHub suivant : [mailrocketsystems/JetsonYolov5](https://github.com/mailrocketsystems/JetsonYolov5). Des démonstrations et explications supplémentaires peuvent être trouvées dans ces vidéos YouTube :
-- [Démo du Suivi de Drone](https://www.youtube.com/watch?v=ErWC3nBuV6k&ab_channel=RocketSystems)
-- [Explication Technique](https://www.youtube.com/watch?v=-Vu65N1NRWw&ab_channel=RocketSystems)
+- [Running YoloV5 with TensorRT Engine on Jetson Nano](https://www.youtube.com/watch?v=ErWC3nBuV6k&ab_channel=RocketSystems)
+- [Object Detection YoloV5 TensorRT on Jetson Nano | Rocket Systems](https://www.youtube.com/watch?v=-Vu65N1NRWw&ab_channel=RocketSystems)
+- N'hesitez pas à faire un tour sur cette chaine (Rocket Systems) elle est très intérrésante.
 
