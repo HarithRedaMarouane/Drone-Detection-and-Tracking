@@ -61,10 +61,6 @@ Suivez les instructions sur [ce lien](https://forums.developer.nvidia.com/t/pyto
 
  Jetson Nano (choisir la version PyTorch v1.10 - torchvision v0.11.1).
 
-### FAQ sur l'Utilisation
-- **Comment démarrer le suivi?** Lancez `track_drones.py` pour commencer le suivi.
-- **Puis-je utiliser une caméra différente?** Oui, le système est compatible avec plusieurs modèles de caméras.
-
 ## Personnalisation et Entraînement de Modèle
 Pour entraîner votre propre modèle YOLO, suivez ces étapes :
 1. Collectez et préparez vos données.
